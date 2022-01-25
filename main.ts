@@ -1,9 +1,13 @@
 function user (gamertag: string) {
-	
+    return gamertag
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    mySprite.setVelocity(0, 50)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
 })
+let mySprite: Sprite = null
 scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -128,12 +132,13 @@ scene.setBackgroundImage(img`
     `)
 scroller.scrollBackgroundWithSpeed(-50, 0)
 info.setLife(3)
-let mySprite = sprites.create(img`
+mySprite = sprites.create(img`
     ........................
-    ............cc..........
-    ............ccc.........
-    ........cc..ccccccc.....
-    ........ccccc555555cc...
+    ........................
+    ...........ccc..........
+    ...........cccc.........
+    .......ccc..ccccccc.....
+    .......cccccc555555cc...
     ........ccb5555555555c..
     .....cc..b555555555555c.
     .....cccb555555ff155555c
@@ -141,40 +146,29 @@ let mySprite = sprites.create(img`
     ......b5555555555555555c
     ...cc.b555dd5555bb13bbc.
     ...cccd55ddddd555b3335c.
-    ....ccdd5ddddddd55b335c.
-    .....bddddb55bdddd5555c.
-    ..cccdddddb55bbbbbcccc..
-    .ccccddddddb5555cbcccc..
-    .cdccdddddddc555cbc55c..
-    .cdddddddddddcccbbc5c...
-    .cbddddddd55dbbbbccc....
-    .ccbdddddd555dbbbcbc....
-    ..cccddbbbd555bbccc.....
-    ....ccbbbbbd555cc.......
-    ......ccccbddddbc.......
-    ..........cd5555dc......
+    .....bdddddddddd55b335c.
+    ..cccdddddb55bbddd5555c.
+    ..cccdddddb555bbbbcccc..
+    ...ccddddddb5555cbcdc...
+    ccccbdddddd5cb55cbcc....
+    cddddddddd5555ccbbc.....
+    .cddddddbdd555bbbcc.....
+    ..ccdddbbbdd55cbcdc.....
+    ....ccbbcbddddccdddcc...
+    ......cccdd555dcccccc...
+    ........cccccccc........
     `, SpriteKind.Player)
-let projectile = sprites.createProjectileFromSide(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . c c . . . . . . . . 
-    . . . . c a f b c . . . . . . . 
-    . . . . b f f b c c . . . . . . 
-    . . . a a f b a b a c . . . . . 
-    . . . c a c b b f f b . . . . . 
-    . . . . b f f b f a b . . . . . 
-    . . . . a f f b b b a . . . . . 
-    . . . . . a b b c c . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, 50, 50)
-projectile.setPosition(0, randint(0, 10))
+controller.moveSprite(mySprite)
+mySprite.setPosition(20, 100)
+mySprite.setStayInScreen(true)
+let gamerTag = user(game.askForString("gamer tag"))
+mySprite.sayText(gamerTag)
 game.onUpdate(function () {
     while (info.life() > 1) {
         info.changeScoreBy(1)
+        break;
     }
+})
+game.onUpdate(function () {
+    mySprite.ay = 30
 })
