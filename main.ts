@@ -1,1 +1,39 @@
- 
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    mySprite.setVelocity(0, -50)
+    pause(2000)
+    mySprite.setVelocity(0, 0)
+})
+let mySprite: Sprite = null
+scene.setBackgroundColor(0)
+mySprite = sprites.create(img`
+    ........................
+    ............cc..........
+    ............ccc.........
+    ........cc..ccccccc.....
+    ........ccccc555555cc...
+    ........ccb5555555555c..
+    .....cc..b555555555555c.
+    .....cccb555555ff155555c
+    ......cb55555555ff55d55c
+    ......b5555555555555555c
+    ...cc.b555dd5555bb13bbc.
+    ...cccd55ddddd555b3335c.
+    ....ccdd5ddddddd55b335c.
+    .....bddddb55bdddd5555c.
+    ..cccdddddb55bbbbbcccc..
+    .ccccddddddb5555cbcccc..
+    .cdccdddddddc555cbc55c..
+    .cdddddddddddcccbbc5c...
+    .cbddddddd55dbbbbccc....
+    .ccbdddddd555dbbbcbc....
+    ..cccddbbbd555bbccc.....
+    ....ccbbbbbd555cc.......
+    ......ccccbddddbc.......
+    ..........cd5555dc......
+    `, SpriteKind.Player)
+mySprite.setPosition(25, 100)
+controller.moveSprite(mySprite)
+game.onUpdate(function () {
+    mySprite.setVelocity(0, 30)
+    mySprite.setStayInScreen(true)
+})
